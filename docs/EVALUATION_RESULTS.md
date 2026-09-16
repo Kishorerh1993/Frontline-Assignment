@@ -1,81 +1,71 @@
 # Offline evaluation run evidence
 
-Date: 2026-09-16
+Date: 2026-09-17
 
-## Commands attempted
+## Environment
+
+The following completed runs used a local macOS virtual environment with
+Python 3.12.3, pytest 9.1.1, and Pipecat 0.0.95. The test commands used only
+synthetic fixtures, mocks, and placeholder Supabase settings; no production
+credentials or provider calls were used.
+
+## Completed evaluation gate
 
 From `voice-agent/`:
 
 ```bash
-PYTHONPATH=.:../shared python3 -m evals.runner
+python -m evals.runner --json-out ../artifacts/frontline-evaluation.json
 ```
 
-Result: the runner handled initialization failure and exited with code `2`.
-The base Python installation has no installed `pipecat` dependency, required
-by `tool_definitions.py`. No evaluation scenario started, no provider was
-contacted, and no report artifact was written.
+Result: **PASS — 11 of 11 scenarios.** The machine-readable report is saved
+as `artifacts/frontline-evaluation.json`. It covers prompt/tool contracts,
+three handler-side rejection paths, and the scripted carrier trajectories.
 
-The runner's source files did pass the available syntax check:
+The run emitted two expected warnings that demonstrate the negative paths were
+blocked: an implausible fabricated load reference was rejected before a lookup,
+and a transfer attempted before load lookup was blocked. Neither warning is a
+test failure.
 
-```bash
-python3 -m py_compile \
-  voice-agent/evals/__init__.py \
-  voice-agent/evals/fixtures.py \
-  voice-agent/evals/scenarios.py \
-  voice-agent/evals/runner.py \
-  voice-agent/tests/test_evaluation_suite.py
-```
+The runner reported these known enforcement gaps:
 
-Result: pass (exit code 0). `git diff --check` also passed.
+- Prompt checks cannot prove stochastic LLM compliance or tool-call ordering.
+- This offline suite does not exercise Daily, PSTN, speech, LLM, Supabase,
+  carrier, quote, Slack, or broker-transfer providers.
 
-The hermetic production-contract validation completed successfully:
+## Completed supporting tests
 
 ```bash
-cd voice-agent
-PYTHONPATH=.:../shared python3 -m evals.hermetic_validation
-```
-
-Result: pass (exit code 0). This executed the repository's real prompt
-builders, `tool_definitions.py`, static handler-binding inspection, and
-scripted turn trajectories using a minimal import-time Pipecat schema stub.
-It made no external requests and did not start the voice pipeline.
-
-The complete 8-scenario, 103-check JSON report is retained at
-`artifacts/hermetic-production-contract-validation.json`. It records every
-scenario/check outcome and confirms `passed: true`.
-
-A hermetic evaluation run also completed successfully. It supplied a synthetic
-passing prompt scenario and a scenario whose renderer raises, using the async
-runner API with synthetic schema and handler registries. The result correctly
-reported the passing scenario and a failed `scenario_execution` check for the
-render error. This is completed evidence for runner error isolation and report
-semantics only; it is not evidence that the default catalog or real handlers
-passed.
-
-The dependency-free turn-level evaluator smoke check also passed. It exercised
-two sequential synthetic caller/tool turns and verified the expected prompt
-stage, governing contract, action, and turn order. As above, this validates
-the evaluator mechanics only; the production-prompt trajectory catalog still
-requires the declared dependencies.
-
-Hidden-case diagnostics also passed with empty, null-like, malformed, repeated,
-and concurrently invoked synthetic inputs. These checks confirm deterministic
-failure reporting and the preserved positional scenario API; they do not
-replace the dependency-backed catalog run.
-
-## Required follow-up run
-
-In a Python 3.11 environment with the repository's declared dependencies
-installed, run:
-
-```bash
-cd voice-agent
-python -m evals.runner
 python -m pytest tests/test_evaluation_suite.py -v
 ```
 
-Replace this record with the resulting scenario output before treating the
-offline evaluation suite as fully qualified. This limitation is environmental;
-the repository's documented test setup requires `pip`, virtual-environment
-support, and the dependencies in `requirements.txt`, none of which are
-available in this hosted workspace.
+Result: **PASS — 14 passed in 0.85s.** This verifies evaluation-runner
+diagnostics, error isolation, schema/handler drift reporting, and async API
+behavior.
+
+```bash
+SUPABASE_URL=http://test-suite.local SUPABASE_SERVICE_ROLE_KEY=test-key \
+  python -m pytest ../shared/tests -v --tb=short
+```
+
+Result: **PASS — 91 passed in 0.33s.** These mocked functional tests cover
+carrier lookup clients, quote submission behavior, load normalization,
+negotiation database service behavior, Salesforce queries, and transfer
+routing.
+
+```bash
+python -m pytest tests -v --tb=short
+```
+
+Result: **PASS — 76 passed and 17 subtests passed in 1.18s.** This suite
+includes the evaluation tests as well as carrier-service, phone identity,
+transfer-gating, and prompt-guardrail tests.
+
+## Interpretation and limits
+
+These results qualify the deterministic pre-merge evaluation gate and its
+mocked unit-level boundaries. They do not establish live integration behavior:
+Daily/PSTN lifecycle, speech recognition and synthesis, LLM responses and
+same-turn tool ordering, Supabase persistence, carrier and quote APIs, Slack,
+and completed broker transfer remain unverified. Those require an approved
+staging environment with isolated data, provider credentials, a pinned model
+configuration, repeated trials, and separately reported pass-rate thresholds.
