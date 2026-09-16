@@ -9,12 +9,12 @@ from pipecat.adapters.schemas.tools_schema import ToolsSchema
 from pipecat.processors.aggregators.llm_context import LLMContext
 from pipecat.processors.aggregators.llm_response_universal import LLMContextAggregatorPair
 
-from tool_definitions import TRANSFER_HUMAN_TO_CARRIER_FUNCTION
+from tool_definitions import BROKER_ROOM_FUNCTIONS
 from transfer_state import TransferState
 
 
 ROOM2_TOOLS = ToolsSchema(
-    standard_tools=[TRANSFER_HUMAN_TO_CARRIER_FUNCTION]
+    standard_tools=list(BROKER_ROOM_FUNCTIONS)
 )
 
 

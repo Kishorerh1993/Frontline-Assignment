@@ -143,3 +143,17 @@ TRANSFER_HUMAN_TO_CARRIER_FUNCTION = FunctionSchema(
     },
     required=["summary"],
 )
+
+
+# Room-level collections are the canonical schemas supplied to each LLM
+# context. Keep callers on these collections rather than rebuilding lists in
+# multiple pipeline modules.
+CARRIER_ROOM_FUNCTIONS = (
+    VERIFY_CARRIER_FUNCTION,
+    GET_LOAD_CONTEXT_FUNCTION,
+    RECORD_AGREEMENT_FUNCTION,
+    END_CALL_FUNCTION,
+    TRANSFER_TO_HUMAN_FUNCTION,
+)
+
+BROKER_ROOM_FUNCTIONS = (TRANSFER_HUMAN_TO_CARRIER_FUNCTION,)

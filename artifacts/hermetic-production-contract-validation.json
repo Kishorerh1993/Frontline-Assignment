@@ -1,0 +1,698 @@
+{
+  "passed": true,
+  "scenario_count": 8,
+  "scenarios": [
+    {
+      "identifier": "initial-mc-lookup-contract",
+      "risk": "Identity verification and lookup-result hallucination",
+      "room": "carrier_room",
+      "prompt_stage": "initial_mc",
+      "passed": true,
+      "checks": [
+        {
+          "name": "room_tool_contract",
+          "passed": true,
+          "detail": "registered tools match expected contract"
+        },
+        {
+          "name": "tool_parameter_contract",
+          "passed": true,
+          "detail": "required tool parameters match expected contract"
+        },
+        {
+          "name": "tool_schema_contract",
+          "passed": true,
+          "detail": "tool parameter types and enums match expected contract"
+        },
+        {
+          "name": "tool_handler_binding_contract",
+          "passed": true,
+          "detail": "registered handler bindings match expected contract"
+        },
+        {
+          "name": "requires:can I get your MC number?",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "requires:MANDATORY TOOL-CALL RULE",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "requires:Every time the caller gives you a NEW MC number",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "requires:NEVER state a lookup outcome",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "requires:verify_carrier AND end_call must BOTH be called",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "requires:reason='mc_not_found'",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "requires:IMPORTANT: You MUST verify the carrier BEFORE asking about the reference number.",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "forbids:confirm_carrier_identity",
+          "passed": true,
+          "detail": "prohibited fragment is absent"
+        }
+      ]
+    },
+    {
+      "identifier": "phone-identity-replacement-contract",
+      "risk": "Stale phone-preverified identity after caller denial",
+      "room": "carrier_room",
+      "prompt_stage": "initial_phone_verified",
+      "passed": true,
+      "checks": [
+        {
+          "name": "room_tool_contract",
+          "passed": true,
+          "detail": "registered tools match expected contract"
+        },
+        {
+          "name": "tool_parameter_contract",
+          "passed": true,
+          "detail": "required tool parameters match expected contract"
+        },
+        {
+          "name": "tool_schema_contract",
+          "passed": true,
+          "detail": "tool parameter types and enums match expected contract"
+        },
+        {
+          "name": "tool_handler_binding_contract",
+          "passed": true,
+          "detail": "registered handler bindings match expected contract"
+        },
+        {
+          "name": "requires:Example Carrier LLC",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "requires:IDENTITY REPLACEMENT RULE",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "requires:brand-new identity",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "requires:EXAMPLE \u2014 DENY THEN REVERIFY",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "requires:Text only: \"Great, do you have a reference number?\"",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "requires:backend records the confirmed identity automatically",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "forbids:confirm_carrier_identity",
+          "passed": true,
+          "detail": "prohibited fragment is absent"
+        }
+      ]
+    },
+    {
+      "identifier": "loaded-negotiation-confidentiality-contract",
+      "risk": "Confidential-price leakage and invalid negotiation closure",
+      "room": "carrier_room",
+      "prompt_stage": "loaded_negotiation",
+      "passed": true,
+      "checks": [
+        {
+          "name": "room_tool_contract",
+          "passed": true,
+          "detail": "registered tools match expected contract"
+        },
+        {
+          "name": "tool_parameter_contract",
+          "passed": true,
+          "detail": "required tool parameters match expected contract"
+        },
+        {
+          "name": "tool_schema_contract",
+          "passed": true,
+          "detail": "tool parameter types and enums match expected contract"
+        },
+        {
+          "name": "tool_handler_binding_contract",
+          "passed": true,
+          "detail": "registered handler bindings match expected contract"
+        },
+        {
+          "name": "requires:YOUR FIRST RESPONSE MUST PRESENT THE LOAD",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "requires:Reference Number: EVAL-1042",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "requires:Opening Offer: $1800.0",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "requires:Internal Goal: $1950.0 (CONFIDENTIAL",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "requires:Internal Ceiling: $2200.0 (NEVER EXCEED",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "requires:FORBIDDEN DOLLAR AMOUNTS",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "requires:NEVER counter with a rate HIGHER than the carrier's bid",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "requires:above_max=true",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "requires:confirm price \u2192 collect contact info \u2192 record_agreement \u2192 end_call",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "requires:Do NOT transfer without a confirmed load reference.",
+          "passed": true,
+          "detail": "required contract fragment found"
+        },
+        {
+          "name": "ordered:YOUR FIRST RESPONSE MUST PRESENT THE LOAD",
+          "passed": true,
+          "detail": "required sequence preserved"
+        },
+        {
+          "name": "ordered:Reference Number: EVAL-1042",
+          "passed": true,
+          "detail": "required sequence preserved"
+        },
+        {
+          "name": "ordered:Opening Offer: $1800.0",
+          "passed": true,
+          "detail": "required sequence preserved"
+        },
+        {
+          "name": "ordered:confirm price \u2192 collect contact info \u2192 record_agreement \u2192 end_call",
+          "passed": true,
+          "detail": "required sequence preserved"
+        }
+      ]
+    },
+    {
+      "identifier": "broker-room-tool-contract",
+      "risk": "Broker handoff tool is available only in the broker room",
+      "room": "broker_room",
+      "prompt_stage": "broker_handoff",
+      "passed": true,
+      "checks": [
+        {
+          "name": "room_tool_contract",
+          "passed": true,
+          "detail": "registered tools match expected contract"
+        },
+        {
+          "name": "tool_parameter_contract",
+          "passed": true,
+          "detail": "required tool parameters match expected contract"
+        },
+        {
+          "name": "tool_schema_contract",
+          "passed": true,
+          "detail": "tool parameter types and enums match expected contract"
+        },
+        {
+          "name": "tool_handler_binding_contract",
+          "passed": true,
+          "detail": "registered handler bindings match expected contract"
+        }
+      ]
+    },
+    {
+      "identifier": "normal-carrier-to-agreement-turns",
+      "risk": "Carrier flow skips verification, load lookup, or agreement prerequisites",
+      "room": "carrier_room",
+      "prompt_stage": "scripted_conversation",
+      "passed": true,
+      "checks": [
+        {
+          "name": "turn-1:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-1:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage initial_mc is rendered"
+        },
+        {
+          "name": "turn-1:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        },
+        {
+          "name": "turn-2:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-2:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage initial_mc is rendered"
+        },
+        {
+          "name": "turn-2:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        },
+        {
+          "name": "turn-2:expected-action",
+          "passed": true,
+          "detail": "expected action verify_carrier is available in this stage"
+        },
+        {
+          "name": "turn-3:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-3:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage initial_mc is rendered"
+        },
+        {
+          "name": "turn-3:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        },
+        {
+          "name": "turn-4:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-4:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage initial_mc is rendered"
+        },
+        {
+          "name": "turn-4:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        },
+        {
+          "name": "turn-5:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-5:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage initial_mc is rendered"
+        },
+        {
+          "name": "turn-5:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        },
+        {
+          "name": "turn-5:expected-action",
+          "passed": true,
+          "detail": "expected action get_load_context is available in this stage"
+        },
+        {
+          "name": "turn-6:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-6:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage loaded_negotiation is rendered"
+        },
+        {
+          "name": "turn-6:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        },
+        {
+          "name": "turn-7:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-7:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage loaded_negotiation is rendered"
+        },
+        {
+          "name": "turn-7:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        },
+        {
+          "name": "turn-8:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-8:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage loaded_negotiation is rendered"
+        },
+        {
+          "name": "turn-8:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        },
+        {
+          "name": "turn-9:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-9:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage loaded_negotiation is rendered"
+        },
+        {
+          "name": "turn-9:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        },
+        {
+          "name": "turn-9:expected-action",
+          "passed": true,
+          "detail": "expected action record_agreement is available in this stage"
+        },
+        {
+          "name": "turn-10:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-10:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage loaded_negotiation is rendered"
+        },
+        {
+          "name": "turn-10:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        },
+        {
+          "name": "turn-10:expected-action",
+          "passed": true,
+          "detail": "expected action end_call is available in this stage"
+        }
+      ]
+    },
+    {
+      "identifier": "mc-three-strike-closure-turns",
+      "risk": "Unverified carrier is allowed beyond the third lookup failure",
+      "room": "carrier_room",
+      "prompt_stage": "scripted_conversation",
+      "passed": true,
+      "checks": [
+        {
+          "name": "turn-1:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-1:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage initial_mc is rendered"
+        },
+        {
+          "name": "turn-1:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        },
+        {
+          "name": "turn-1:expected-action",
+          "passed": true,
+          "detail": "expected action verify_carrier is available in this stage"
+        },
+        {
+          "name": "turn-2:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-2:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage initial_mc is rendered"
+        },
+        {
+          "name": "turn-2:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        },
+        {
+          "name": "turn-3:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-3:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage initial_mc is rendered"
+        },
+        {
+          "name": "turn-3:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        },
+        {
+          "name": "turn-3:expected-action",
+          "passed": true,
+          "detail": "expected action verify_carrier is available in this stage"
+        },
+        {
+          "name": "turn-4:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-4:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage initial_mc is rendered"
+        },
+        {
+          "name": "turn-4:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        },
+        {
+          "name": "turn-5:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-5:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage initial_mc is rendered"
+        },
+        {
+          "name": "turn-5:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        },
+        {
+          "name": "turn-5:expected-action",
+          "passed": true,
+          "detail": "expected action verify_carrier is available in this stage"
+        },
+        {
+          "name": "turn-6:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-6:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage initial_mc is rendered"
+        },
+        {
+          "name": "turn-6:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        },
+        {
+          "name": "turn-6:expected-action",
+          "passed": true,
+          "detail": "expected action end_call is available in this stage"
+        }
+      ]
+    },
+    {
+      "identifier": "phone-identity-replacement-turns",
+      "risk": "Denied phone identity is reused without new verbal confirmation",
+      "room": "carrier_room",
+      "prompt_stage": "scripted_conversation",
+      "passed": true,
+      "checks": [
+        {
+          "name": "turn-1:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-1:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage initial_phone_verified is rendered"
+        },
+        {
+          "name": "turn-1:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        },
+        {
+          "name": "turn-2:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-2:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage initial_phone_verified is rendered"
+        },
+        {
+          "name": "turn-2:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        },
+        {
+          "name": "turn-2:expected-action",
+          "passed": true,
+          "detail": "expected action verify_carrier is available in this stage"
+        },
+        {
+          "name": "turn-3:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-3:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage initial_phone_verified is rendered"
+        },
+        {
+          "name": "turn-3:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        },
+        {
+          "name": "turn-4:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-4:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage initial_phone_verified is rendered"
+        },
+        {
+          "name": "turn-4:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        }
+      ]
+    },
+    {
+      "identifier": "transfer-prerequisite-turns",
+      "risk": "Human transfer starts before a successful load lookup",
+      "room": "carrier_room",
+      "prompt_stage": "scripted_conversation",
+      "passed": true,
+      "checks": [
+        {
+          "name": "turn-1:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-1:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage loaded_negotiation is rendered"
+        },
+        {
+          "name": "turn-1:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        },
+        {
+          "name": "turn-2:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-2:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage loaded_negotiation is rendered"
+        },
+        {
+          "name": "turn-2:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        },
+        {
+          "name": "turn-3:sequence",
+          "passed": true,
+          "detail": "turn number follows the prior turn"
+        },
+        {
+          "name": "turn-3:prompt-stage",
+          "passed": true,
+          "detail": "prompt stage loaded_negotiation is rendered"
+        },
+        {
+          "name": "turn-3:governing-contract",
+          "passed": true,
+          "detail": "governing prompt contract is present"
+        },
+        {
+          "name": "turn-3:expected-action",
+          "passed": true,
+          "detail": "expected action transfer_to_human is available in this stage"
+        }
+      ]
+    }
+  ]
+}

@@ -16,11 +16,7 @@ from dotenv import load_dotenv
 from loguru import logger
 from pipecat.adapters.schemas.tools_schema import ToolsSchema
 from tool_definitions import (
-    VERIFY_CARRIER_FUNCTION,
-    GET_LOAD_CONTEXT_FUNCTION,
-    RECORD_AGREEMENT_FUNCTION,
-    END_CALL_FUNCTION,
-    TRANSFER_TO_HUMAN_FUNCTION,
+    CARRIER_ROOM_FUNCTIONS,
 )
 from pipecat.audio.turn.smart_turn.local_smart_turn_v3 import LocalSmartTurnAnalyzerV3
 from pipecat.audio.vad.silero import SileroVADAnalyzer
@@ -300,14 +296,7 @@ async def run_bot(
         os.getenv("HIGHWAY_PHONE_LOOKUP_ENABLED", "false").lower() == "true"
     )
 
-    standard_tools = [
-        VERIFY_CARRIER_FUNCTION,
-        GET_LOAD_CONTEXT_FUNCTION,
-        RECORD_AGREEMENT_FUNCTION,
-        END_CALL_FUNCTION,
-        TRANSFER_TO_HUMAN_FUNCTION,
-    ]
-    tools = ToolsSchema(standard_tools=standard_tools)
+    tools = ToolsSchema(standard_tools=list(CARRIER_ROOM_FUNCTIONS))
 
     # Fetch organization name + id for greeting and Supabase scoping.
     # We look up org_id directly here (rather than relying on context.org_id
@@ -470,7 +459,6 @@ async def run_bot(
 
     # === TRANSFER: Register transfer tool handlers on LLM ===
     llm.register_function("transfer_to_human", transfer_handler.handle_transfer_to_human)
-    llm.register_function("transfer_human_to_carrier", transfer_handler.handle_transfer_human_to_carrier)
 
     # Bind task to end_call function
     end_call_with_task = partial(end_call, task=task)
